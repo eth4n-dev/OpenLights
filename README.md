@@ -32,8 +32,6 @@ Result: full RGB control from Linux CLI and a small Linux GUI picker.
 - **Vendor-defined**: custom format made by the manufacturer, not a standard keyboard/mouse format.
 - **Checksum**: a small value used to verify packet integrity.
 
-If those words were confusing before, this is normal.
-
 ---
 
 ## Before you start
