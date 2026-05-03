@@ -1,18 +1,18 @@
-# USB RGB Light Control on Linux (Beginner-Friendly Reverse Engineering Guide)
+# USB RGB Light Control on Linux
 
-This project shows how to control a USB RGB light on Linux when the official control app is Windows-only.
+A beginner-friendly reverse engineering guide for USB RGB lights with Windows-only control apps.
 
-The light used while writing this guide was sold as **DX Light**, but the same general method can work for many USB RGB lights that behave similarly.
+This guide started with a light sold as **DX Light**, but the method can apply to many similar USB RGB lights.
 
-This guide is **not only for DX Light**. It is for USB RGB lights that:
+It is useful for lights that:
 
 - connect over USB
-- appear as a HID device
+- appear as HID devices
 - receive small binary control messages
 - use a vendor-defined/custom protocol
 - have a Windows app that sends color commands
 
-The exact packet format may be different for other lights, but the process of finding, capturing, understanding, and recreating the packets is similar.
+The exact packet format may be different for other lights, but the general process is similar.
 
 ---
 
@@ -20,7 +20,7 @@ The exact packet format may be different for other lights, but the process of fi
 
 Many USB RGB lights are controlled by small binary messages.
 
-The official Windows app may send messages like:
+The official Windows app may send commands like:
 
 ```text
 set color to red
@@ -28,7 +28,7 @@ set color to blue
 set color to purple
 ```
 
-But over USB, those commands are not sent as readable text. They are usually sent as raw binary HID reports.
+But over USB, those commands are usually sent as raw binary HID reports.
 
 This guide explains how to:
 
@@ -90,9 +90,10 @@ That means the command needs administrator/root permission.
 
 ---
 
-## Glossary
+<details>
+<summary><strong>Beginner vocabulary</strong></summary>
 
-### USB
+## USB
 
 USB is the standard way devices connect to your computer.
 
@@ -100,7 +101,7 @@ Your RGB light connects over USB.
 
 ---
 
-### HID
+## HID
 
 HID means **Human Interface Device**.
 
@@ -108,7 +109,7 @@ Keyboards and mice use HID, but many RGB devices also use HID because it is simp
 
 ---
 
-### Interface
+## Interface
 
 One USB device can expose multiple logical parts.
 
@@ -124,7 +125,7 @@ The vendor-defined or custom interface is usually the one used for RGB control.
 
 ---
 
-### hidraw
+## hidraw
 
 On Linux, raw HID devices appear as files like:
 
@@ -138,7 +139,7 @@ These files let programs send raw HID messages directly to USB devices.
 
 ---
 
-### Report descriptor
+## Report descriptor
 
 A report descriptor is metadata that describes what kind of HID messages a HID device expects.
 
@@ -146,7 +147,7 @@ You usually do not need to fully understand it, but it helps confirm things like
 
 ---
 
-### Packet / report
+## Packet / report
 
 A packet, also called a report, is one message sent to the device.
 
@@ -156,7 +157,7 @@ Other lights may use a different size.
 
 ---
 
-### Vendor-defined
+## Vendor-defined
 
 Vendor-defined means the manufacturer made their own custom message format.
 
@@ -164,7 +165,7 @@ It is not a standard keyboard, mouse, or lighting protocol.
 
 ---
 
-### Checksum
+## Checksum
 
 A checksum is a small value used to verify that a packet is valid.
 
@@ -174,9 +175,12 @@ Some do not.
 
 For the example device, the checksum is calculated by adding the first 15 bytes of the packet and keeping only the lowest 8 bits.
 
+</details>
+
 ---
 
-# Linux-only method
+<details>
+<summary><strong>Linux-only method</strong></summary>
 
 Use this method if:
 
@@ -573,11 +577,14 @@ Now try again without `sudo`:
 ./dxlight 255 0 0
 ```
 
+</details>
+
 ---
 
-# Windows capture method
+<details>
+<summary><strong>Windows capture method</strong></summary>
 
-This method is useful if:
+Use this method if:
 
 - the Linux-only method does not work
 - your light behaves differently
@@ -585,7 +592,7 @@ This method is useful if:
 - you want to reverse engineer the protocol yourself
 - you want to verify the messages sent by the official app
 
-Again, you do **not** need to dual-boot.
+You do **not** need to dual-boot.
 
 You only need temporary access to Windows.
 
@@ -733,9 +740,12 @@ BB GG RR
 
 or with brightness/effect bytes nearby.
 
+</details>
+
 ---
 
-# Example packet format
+<details>
+<summary><strong>Example packet format</strong></summary>
 
 The example device used while writing this guide has this packet structure:
 
@@ -820,9 +830,12 @@ This is only the example format.
 
 Other lights may use different headers, different RGB byte positions, different checksums, or no checksum at all.
 
+</details>
+
 ---
 
-# Troubleshooting
+<details>
+<summary><strong>Troubleshooting</strong></summary>
 
 ## `lsusb` does not show the device
 
@@ -943,9 +956,12 @@ You want the actual bytes sent to the device, not the whole USB packet.
 
 The useful payload is usually much shorter than the full captured frame.
 
+</details>
+
 ---
 
-# Files in this repo
+<details>
+<summary><strong>Files in this repo</strong></summary>
 
 ```text
 list_dxlights.py   Windows helper: lists interfaces for the example device
@@ -956,9 +972,12 @@ dxlight-picker     Linux Tkinter GUI sender for the known example packet format
 
 If you adapt this project for another light, you may want to rename these files or update the code comments to match your device.
 
+</details>
+
 ---
 
-# Final notes
+<details>
+<summary><strong>Final notes</strong></summary>
 
 The general process is:
 
@@ -987,3 +1006,5 @@ You do not need dual-boot.
 A Windows laptop, a friend’s Windows computer, a separate Windows PC, or a Windows VM with USB passthrough is enough for the capture step.
 
 This guide started with one DX Light-style USB RGB light, but the method can apply to many similar HID-based RGB lights.
+
+</details>
