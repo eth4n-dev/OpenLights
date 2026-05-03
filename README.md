@@ -439,37 +439,37 @@ If this does not work, your light may still be controllable, but you will need t
 To set the light to red:
 
 ```bash
-./dxlight 255 0 0
+./dxlight_hidraw.py 255 0 0
 ```
 
 To set it to green:
 
 ```bash
-./dxlight 0 255 0
+./dxlight_hidraw.py 0 255 0
 ```
 
 To set it to blue:
 
 ```bash
-./dxlight 0 0 255
+./dxlight_hidraw.py 0 0 255
 ```
 
 To set it to white:
 
 ```bash
-./dxlight 255 255 255
+./dxlight_hidraw.py 255 255 255
 ```
 
 To set a custom purple color:
 
 ```bash
-./dxlight 128 64 255
+./dxlight_hidraw.py 128 64 255
 ```
 
 The format is:
 
 ```bash
-./dxlight RED GREEN BLUE
+./dxlight_hidraw.py RED GREEN BLUE
 ```
 
 Each value must be between `0` and `255`.
@@ -477,14 +477,14 @@ Each value must be between `0` and `255`.
 You can also provide a custom sequence byte:
 
 ```bash
-./dxlight 128 64 255 0x55
+./dxlight_hidraw.py 128 64 255 0x55
 ```
 
 Most users do not need to do that.
 
 Note:
 
-The included `dxlight` tool is written for the known example packet format.
+The included `dxlight_hidraw.py` tool is written for the known example packet format.
 
 If your light uses a different protocol, you may need to modify the tool.
 
@@ -527,7 +527,7 @@ your user does not have permission to write to the hidraw device.
 For quick testing, run the CLI with `sudo`:
 
 ```bash
-sudo ./dxlight 255 0 0
+sudo ./dxlight_hidraw.py 255 0 0
 ```
 
 If that works, the problem is permissions.
@@ -574,7 +574,7 @@ Unplug and reconnect the light.
 Now try again without `sudo`:
 
 ```bash
-./dxlight 255 0 0
+./dxlight_hidraw.py 255 0 0
 ```
 
 </details>
@@ -887,7 +887,7 @@ Possible causes:
 First try:
 
 ```bash
-sudo ./dxlight 255 0 0
+sudo ./dxlight_hidraw.py 255 0 0
 ```
 
 If that works, it was a permissions problem.
@@ -903,7 +903,7 @@ If the device is not the example model, you may need to capture its own packets 
 For quick testing:
 
 ```bash
-sudo ./dxlight 255 0 0
+sudo ./dxlight_hidraw.py 255 0 0
 ```
 
 For permanent access, create a udev rule using your device’s vendor ID and product ID.
@@ -964,10 +964,10 @@ The useful payload is usually much shorter than the full captured frame.
 <summary><strong>Files in this repo</strong></summary>
 
 ```text
-list_dxlights.py   Windows helper: lists interfaces for the example device
-dxlights.py        Windows sender using hidapi for the example device
-dxlight            Linux CLI sender for the known example packet format
-dxlight-picker     Linux Tkinter GUI sender for the known example packet format
+list_dxlights.py    Diagnostic helper: lists HID interfaces for the example device
+dxlight_hidapi.py   Sender using hidapi for the example device
+dxlight_hidraw.py   Linux CLI sender using /dev/hidraw for the known example packet format
+dxlight-picker      Linux Tkinter GUI sender for the known example packet format
 ```
 
 If you adapt this project for another light, you may want to rename these files or update the code comments to match your device.

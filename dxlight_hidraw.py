@@ -35,7 +35,7 @@ def make_packet(r: int, g: int, b: int, seq: int) -> bytes:
 
 def main():
     if len(sys.argv) not in (4, 5):
-        print("Usage: dxlight R G B [seq]")
+        print("Usage: ./dxlight_hidraw.py R G B [seq]")
         raise SystemExit(1)
 
     r = int(sys.argv[1])
